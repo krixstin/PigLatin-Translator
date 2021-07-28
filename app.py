@@ -17,75 +17,85 @@ app = Flask(__name__)
  
 @app.route('/')
 def main():
-    return render_template('app.html')
+    return render_template('form.html')
  
-@app.route("/translate", methods = ['POST'])
+@app.route("/", methods = ['POST', 'GET'])
 def translate():
-    sentence = request.form['sentence']
-    sentence = sentence.lower()
+    if request.method == 'GET':
+        return "The URL /data is accessed directly. Try going to '/form' to submit form"
     
-    word = sentence.split()
-    length = len(word)
+    if request.method == 'POST':
+        english= request.form.get("english")
+        sentence = english.lower()
+        word = sentence.split()
+        length = len(word)
+        return render_template("form.html", english=english, result= length )
+        # return render_template("form.html")
+    
+    # sentence = sentence.lower()
+    
+    # word = sentence.split()
+    # length = len(word)
 
-    i = 0
-    complete_trans = ""
-    while i < length:
-        alphabet = word[i][0]
-        trans = ""
-        v = ""
+    # i = 0
+    # complete_trans = ""
+    # while i < length:
+    #     alphabet = word[i][0]
+    #     trans = ""
+    #     v = ""
 
-        if 'a' in word[i]:
-            v = 1
-        elif 'e' in word[i]:
-            v = 1
-        elif 'i' in word[i]:
-            v = 1
-        elif 'o' in word[i]:
-            v = 1
-        elif 'u' in word[i]:
-            v = 1
-        else:
-            v = 0
+    #     if 'a' in word[i]:
+    #         v = 1
+    #     elif 'e' in word[i]:
+    #         v = 1
+    #     elif 'i' in word[i]:
+    #         v = 1
+    #     elif 'o' in word[i]:
+    #         v = 1
+    #     elif 'u' in word[i]:
+    #         v = 1
+    #     else:
+    #         v = 0
 
-        # words without vowel
-        if v == 0:
-            trans = word[i]
+    #     # words without vowel
+    #     if v == 0:
+    #         trans = word[i]
 
-        # words that has vowel in
-        else:
+    #     # words that has vowel in
+    #     else:
 
-            # starts with vowel
-            if alphabet in "aeiouAEIOU":
-                trans=word[i]+"way"
+    #         # starts with vowel
+    #         if alphabet in "aeiouAEIOU":
+    #             trans=word[i]+"way"
 
-            # begins with vowel but has vowel in
-            elif alphabet not in "aeiouAEIOU":
-                aa = word[i].find('a')
-                ee = word[i].find('e')
-                ii = word[i].find('i')
-                oo = word[i].find('o')
-                uu = word[i].find('u')
-                index = [aa, ee, ii, oo, uu]
-                new_list = list(set(index))
-                new_list.sort()
-                n = new_list[1]
-                trans = word[i][n:]+word[i][0:n]+"ay"
-    # # return 'Hello, %s and %s' %{sentence, sentence}
-    result =complete_trans.capitalize()
-    # return result
-    # return "this is: %s, %s" %{complete_trans.capitalize(), sentence}
-    return render_template('app.html', result=result)
+    #         # begins with vowel but has vowel in
+    #         elif alphabet not in "aeiouAEIOU":
+    #             aa = word[i].find('a')
+    #             ee = word[i].find('e')
+    #             ii = word[i].find('i')
+    #             oo = word[i].find('o')
+    #             uu = word[i].find('u')
+    #             index = [aa, ee, ii, oo, uu]
+    #             new_list = list(set(index))
+    #             new_list.sort()
+    #             n = new_list[1]
+    #             trans = word[i][n:]+word[i][0:n]+"ay"
+    # # # return 'Hello, %s and %s' %{sentence, sentence}
+    # result =complete_trans.capitalize()
+    # # return result
+#     # return "this is: %s, %s" %{complete_trans.capitalize(), sentence}
+#     return render_template('app.html', result=result)
 
-    # if request.method == 'GET':
-    #     return f"The URL /data is accessed directly. Try going to '/form' to submit form"
-    # if request.method == 'POST':
-    #     form_data = request.form
-    #     return render_template('data.html',form_data = form_data)
+#     # if request.method == 'GET':
+#     #     return f"The URL /data is accessed directly. Try going to '/form' to submit form"
+#     # if request.method == 'POST':
+#     #     form_data = request.form
+#     #     return render_template('data.html',form_data = form_data)
+# # app.run(host='localhost', port=5000)
  
- 
-# app.run(host='localhost', port=5000)
+# # app.run(host='localhost', port=5000)
 if __name__ =='__main__':
-    app.run(host='localhost', port=5000, debug=True)
+    app.run(host='localhost', port=5000, debug=False)
 
 # class Translate:
 
